@@ -57,6 +57,14 @@ store.on("error", (err) => {
   console.log("Error in mongo SESSION store", err);
 });
 
+app.get("/env", (req, res) => {
+  res.send({
+    NODE_ENV: process.env.NODE_ENV,
+    DB_URL: process.env.ATLASDB_URL ? "Configured" : "Not Configured",
+    PORT: process.env.PORT || 8080,
+  });
+});
+
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Listening on port a ${port}`);
@@ -71,7 +79,7 @@ if (process.env.NODE_ENV !== "production") {
 
 const sessionOptions = {
   store,
-  secret: process.env.SECRET,
+  secret: process.env.SECRET,   
   resave: false,
   saveUninitialized: true,
   cookie: {
