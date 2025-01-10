@@ -50,9 +50,24 @@ const store = MongoStore.create({
   },
   touchAfter: 24 * 3600,
 });
-store.on("error", () => {
+// store.on("error", () => {
+//   console.log("Error in mongo SESSION store", err);
+// });
+store.on("error", (err) => {
   console.log("Error in mongo SESSION store", err);
 });
+
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
+
+if (process.env.NODE_ENV !== "production") {
+  app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path}`);
+    next();
+  });
+}
 
 const sessionOptions = {
   store,
