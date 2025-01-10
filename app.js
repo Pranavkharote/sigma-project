@@ -59,7 +59,7 @@ store.on("error", (err) => {
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+  console.log(`Listening on port a ${port}`);
 });
 
 if (process.env.NODE_ENV !== "production") {
@@ -127,9 +127,9 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error.ejs", { message });
 });
 
-app.listen(8080, () => {
-  console.log("listening to port 8080");
-});
+// app.listen(8080, () => {
+//   console.log("listening to port 8080");
+// });
 
 // app.get("/testListing", async (req, res) =>{
 //     let sampleListing = new listing ({
