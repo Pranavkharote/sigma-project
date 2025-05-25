@@ -2,7 +2,7 @@ if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
 
-const express = require("express");
+const express = require("express");   
 const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
@@ -15,6 +15,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+const cors = require("cors")
 
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
@@ -42,6 +43,10 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
+app.use(cors({
+  origin: "https://wanderlust-nzow.onrender.com", // frontend domain
+  credentials: true 
+}))
 
 const store = MongoStore.create({
   mongoUrl: dbUrl,
@@ -85,6 +90,7 @@ const sessionOptions = {
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
+    sameSite:"None",
     expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   },
